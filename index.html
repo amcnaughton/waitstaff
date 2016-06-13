@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="waitstaff">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Waitstaff Calculator</title>
+
+    <link type="text/css" rel="stylesheet" href="bootstrap.min.css">
+    <link type="text/css" rel="stylesheet" href="style.css">
+
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular-messages.js"></script>
+
+    <script type="text/javascript" src="app.js"></script>
+</head>
+
+<body ng-controller="waitstaffController as vm">
+    <div class="container-fluid">
+        <h1 class="text-center">Waitstaff Calculator</h1>
+
+        <div class="row">
+
+            <div class="col-xs-6">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">Enter the Meal Details</div>
+                    <div class="panel-body">
+
+                        <form name="mealDetails" ng-submit="mealDetails.$valid && vm.calculate()" novalidate class="form-horizontal">
+
+                            <div class="form-group">
+                                <label class="col-sm-4 control-label" for="mealPrice">Base Meal Price</label>
+                                <div class="col-sm-3">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">$</span>
+                                        <input id="mealPrice" ng-model="vm.mealPrice" ng-min="0" name="mealPrice" class="form-control input-sm" placeholder="" type="number" required="">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="help-block" ng-messages="mealDetails.mealPrice.$error" ng-if="mealDetails.$submitted">
+                                <p ng-message="required" class="alert alert-danger">Meal price is required.</p>
+                                <p ng-message="min" class="alert alert-danger">Meal price cannot be negative.</p>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-4 control-label" for="mealTaxRate">Tax Rate</label>
+                                <div class="col-sm-3">
+                                    <div class="input-group">
+                                        <input id="mealTaxRate" ng-model="vm.mealTaxRate" ng-min="0" name="mealTaxRate" class="form-control" placeholder="" type="number" required="">
+                                        <span class="input-group-addon">%</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="help-block" ng-messages="mealDetails.mealTaxRate.$error" ng-if="mealDetails.$submitted">
+                                <p ng-message="required" class="alert alert-danger">Tax rate is required.</p>
+                                <p ng-message="min" class="alert alert-danger">Tax rate cannot be negative.</p>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-4 control-label" for="mealTipPercentage">Tip Percentage</label>
+                                <div class="col-sm-3">
+                                    <div class="input-group">
+                                        <input id="mealTipPercentage" ng-model="vm.mealTipPercentage" ng-min="0" name="mealTipPercentage" class="form-control" placeholder="" type="number" required="">
+                                        <span class="input-group-addon">%</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="help-block" ng-messages="mealDetails.mealTipPercentage.$error" ng-if="mealDetails.$submitted">
+                                <p ng-message="required" class="alert alert-danger">Tip percentage is required.</p>
+                                <p ng-message="min" class="alert alert-danger">Tip percentage cannot be negative.</p>
+                            </div>
+
+                            <div class="text-center">
+                                <input type="submit" class="btn btn-primary">
+                                <button class="btn btn-default" type="button" ng-click="vm.clearMealDetails()">Cancel</button>
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xs-6">
+                <div class="panel panel-info">
+                    <div class="panel-heading">Customer Charges</div>
+                    <div class="panel-body">
+
+                        <div class="form-horizontal">
+
+                            <div class="form-group form-text-only">
+                                <label class="col-md-4 control-label" for="customerSubtotal">Subtotal</label>
+                                <div class="col-md-2">
+                                    <div class="input-group">
+                                        <span id="customerSubtotal">{{ vm.invoice.customerSubtotal | currency:"$":2 }}</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group form-text-only">
+                                <label class="col-md-4 control-label" for="customerTip">Tip</label>
+                                <div class="col-md-2">
+                                    <div class="input-group">
+                                        <span id="customerTip">{{ vm.invoice.customerTip | currency:"$":2 }}</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group form-text-only">
+                                <label class="col-md-4 control-label" for="customerTotal">Total</label>
+                                <div class="col-md-2">
+                                    <div class="input-group">
+                                        <span id="customerTotal">{{ vm.invoice.customerTotal | currency:"$":2 }}</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="panel panel-success">
+                    <div class="panel-heading">My Earnings Info</div>
+                    <div class="panel-body">
+
+                        <div class="form-horizontal">
+
+                            <div class="form-group form-text-only">
+                                <label class="col-md-4 control-label" for="myTipTotal">Tip Total</label>
+                                <div class="col-md-2">
+                                    <div class="input-group">
+                                        <span id="myTipTotal">{{ vm.earnings.myTipTotal | currency:"$":2 }}</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group form-text-only">
+                                <label class="col-md-4 control-label" for="myMealCount">Meal Count</label>
+                                <div class="col-md-2">
+                                    <div class="input-group">
+                                        <span id="myMealCount">{{ vm.earnings.myMealCount }}</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group form-text-only">
+                                <label class="col-md-4 control-label" for="myAverageTip">Average Tip Per Meal</label>
+                                <div class="col-md-2">
+                                    <div class="input-group">
+                                        <span id="myAverageTip">{{ vm.earnings.myAverageTip | currency:"$":2 }}</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="row">
+            <div class="col-xs-12">
+                <button class="btn btn-default pull-right" ng-click="vm.reset()">Reset</button>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
