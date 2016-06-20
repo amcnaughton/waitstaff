@@ -1,4 +1,16 @@
-angular.module('waitstaff', ['ngMessages'])
+angular.module('waitstaff', ['ngMessages', 'ngRoute'])
+    .config(['$routeProvider', function($routeProvider) {
+        $routeProvider.when('/', {
+            templateUrl: 'app/templates/home.html',
+            controller: 'waitstaffController'
+        }).when('/new-meal', {
+            templateUrl: 'app/templates/new-meal.html',
+            controller: 'waitstaffController'
+        }).when('/my-earnings', {
+            templateUrl: 'app/templates/my-earnings.html',
+            controller: 'waitstaffController'
+        })
+    }])
     .controller('waitstaffController', ['$scope', function($scope) {
 
         var vm = this;
@@ -28,7 +40,7 @@ angular.module('waitstaff', ['ngMessages'])
 
         // initialize earnings
         function initEarnings() {
-            
+
             var earnings = {};
             earnings.myTipTotal = earnings.myMealCount = earnings.myAverageTip = 0;
 
@@ -37,7 +49,7 @@ angular.module('waitstaff', ['ngMessages'])
 
         // initialize customer invoice
         function initCustomerInvoice() {
-            
+
             var invoice = {};
             invoice.customerSubtotal = invoice.customerTip = invoice.customerTotal = 0;
 
@@ -64,7 +76,7 @@ angular.module('waitstaff', ['ngMessages'])
         // clear meal details
         vm.clearMealDetails = function() {
             vm.mealPrice = vm.mealTaxRate = vm.mealTipPercentage = '';
-
+debugger;
             // reset the Angular form
             if ($scope.mealDetails) {
                 $scope.mealDetails.$setPristine();
