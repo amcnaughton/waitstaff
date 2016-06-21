@@ -1,5 +1,5 @@
-<div class="row">
-    <div class="col-xs-4 col-sm-4 col-sm-offset-4 text-center">
+<div class="row row-centered">
+    <div class="col-xs-12 col-sm-4 col-centered">
 
         <div class="panel panel-success">
             <div class="panel-heading">My Earnings Info</div>
@@ -11,7 +11,7 @@
                         <label class="col-xs-4 control-label" for="myTipTotal">Tip Total</label>
                         <div class="col-xs-8">
                             <div class="input-group">
-                                <span id="myTipTotal">{{ vm.earnings.myTipTotal | currency:"$":2 }}</span>
+                                <span id="myTipTotal">{{ earnings.myTipTotal | currency:"$":2 }}</span>
                             </div>
                         </div>
                     </div>
@@ -20,7 +20,7 @@
                         <label class="col-xs-4 control-label" for="myMealCount">Meal Count</label>
                         <div class="col-xs-8">
                             <div class="input-group">
-                                <span id="myMealCount">{{ vm.earnings.myMealCount }}</span>
+                                <span id="myMealCount">{{ earnings.myMealCount }}</span>
                             </div>
                         </div>
                     </div>
@@ -29,7 +29,7 @@
                         <label class="col-xs-4 control-label" for="myAverageTip">Average Tip Per Meal</label>
                         <div class="col-xs-8">
                             <div class="input-group">
-                                <span id="myAverageTip">{{ vm.earnings.myAverageTip | currency:"$":2 }}</span>
+                                <span id="myAverageTip">{{ earnings.myAverageTip | currency:"$":2 }}</span>
                             </div>
                         </div>
                     </div>

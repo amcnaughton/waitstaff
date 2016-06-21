@@ -73,7 +73,7 @@
                         <label class="col-xs-4 control-label" for="customerSubtotal">Subtotal</label>
                         <div class="col-xs-8">
                             <div class="input-group">
-                                <span id="customerSubtotal">{{ vm.invoice.customerSubtotal | currency:"$":2 }}</span>
+                                <span id="customerSubtotal">{{ invoice.customerSubtotal | currency:"$":2 }}</span>
                             </div>
                         </div>
                     </div>
@@ -82,7 +82,7 @@
                         <label class="col-xs-4 control-label" for="customerTip">Tip</label>
                         <div class="col-xs-8">
                             <div class="input-group">
-                                <span id="customerTip">{{ vm.invoice.customerTip | currency:"$":2 }}</span>
+                                <span id="customerTip">{{ invoice.customerTip | currency:"$":2 }}</span>
                             </div>
                         </div>
                     </div>
@@ -91,7 +91,7 @@
                         <label class="col-xs-4 control-label" for="customerTotal">Total</label>
                         <div class="col-xs-8">
                             <div class="input-group">
-                                <span id="customerTotal">{{ vm.invoice.customerTotal | currency:"$":2 }}</span>
+                                <span id="customerTotal">{{ invoice.customerTotal | currency:"$":2 }}</span>
                             </div>
                         </div>
                     </div>

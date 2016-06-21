@@ -1,17 +1,20 @@
 angular.module('waitstaff', ['ngMessages', 'ngRoute'])
     .config(['$routeProvider', function($routeProvider) {
-        $routeProvider.when('/', {
-            templateUrl: 'app/templates/home.html',
-            controller: 'waitstaffController'
-        }).when('/new-meal', {
-            templateUrl: 'app/templates/new-meal.html',
-            controller: 'waitstaffController'
-        }).when('/my-earnings', {
-            templateUrl: 'app/templates/my-earnings.html',
-            controller: 'waitstaffController'
-        })
+        $routeProvider
+            .when('/', {
+                templateUrl: 'app/templates/home.html',
+                controller: 'waitstaffController as vm'
+            })
+            .when('/new-meal', {
+                templateUrl: 'app/templates/new-meal.html',
+                controller: 'waitstaffController as vm'
+            })
+            .when('/my-earnings', {
+                templateUrl: 'app/templates/my-earnings.html',
+                controller: 'waitstaffController as vm'
+            })
     }])
-    .controller('waitstaffController', ['$scope', function($scope) {
+    .controller('waitstaffController', ['$scope', '$rootScope', function($scope, $rootScope) {
 
         var vm = this;
 
@@ -60,23 +63,23 @@ angular.module('waitstaff', ['ngMessages', 'ngRoute'])
         vm.calculate = function() {
 
             // calculate customer invoice
-            vm.invoice = calculateCustomerInvoice({
+            $rootScope.invoice = calculateCustomerInvoice({
                 'mealPrice': vm.mealPrice,
                 'mealTaxRate': vm.mealTaxRate,
                 'mealTipPercentage': vm.mealTipPercentage
             });
 
             // update user stats
-            vm.earnings = calculateEarnings({
-                'customerTip': vm.invoice.customerTip,
-                'earnings': vm.earnings
+            $rootScope.earnings = calculateEarnings({
+                'customerTip': $rootScope.invoice.customerTip,
+                'earnings': $rootScope.earnings
             });
         }
 
         // clear meal details
         vm.clearMealDetails = function() {
             vm.mealPrice = vm.mealTaxRate = vm.mealTipPercentage = '';
-debugger;
+
             // reset the Angular form
             if ($scope.mealDetails) {
                 $scope.mealDetails.$setPristine();
@@ -86,11 +89,14 @@ debugger;
         //  reset the app
         vm.reset = function() {
 
-            vm.invoice = initCustomerInvoice();
-            vm.earnings = initEarnings();
+            $rootScope.invoice = initCustomerInvoice();
+            $rootScope.earnings = initEarnings();
 
             vm.clearMealDetails();
+
+            $rootScope.initialized = true;
         }
 
-        vm.reset();
+        if (!$rootScope.initialized)
+            vm.reset(true);
     }]);
