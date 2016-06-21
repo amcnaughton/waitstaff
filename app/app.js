@@ -1,4 +1,4 @@
-angular.module('waitstaff', ['ngMessages', 'ngRoute'])
+angular.module('waitstaff', ['ngMessages', 'ngRoute', 'ngAnimate'])
     .config(['$routeProvider', function($routeProvider) {
         $routeProvider
             .when('/', {
@@ -13,6 +13,9 @@ angular.module('waitstaff', ['ngMessages', 'ngRoute'])
                 templateUrl: 'app/templates/my-earnings.html',
                 controller: 'waitstaffController as vm'
             })
+            .otherwise({
+                redirectTo: '/'
+            });
     }])
     .controller('waitstaffController', ['$scope', '$rootScope', function($scope, $rootScope) {
 
